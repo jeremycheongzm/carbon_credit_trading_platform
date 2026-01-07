@@ -70,3 +70,17 @@ All the requirements included below are meant to be a guideline to guide your te
 ### Creating a Multi-Layer Approval Workflows for requests:
 - Requires for multiple approvers to approve a single request before it can be processed.
 - Modify the workflow and tables to require more than one approver before the request is set to
+
+## Tech Stack
+- Frontend: React + Vite
+- Backend: Node.js + Express
+- Database: PostgreSQL
+- ORM: Prisma
+- Auth: JWT
+
+## Features
+- JWT Authentication
+- Carbon Credit Buy/Sell Requests
+- Request Approval Workflow
+- Balance Management
+- Overdue Request Alerts
