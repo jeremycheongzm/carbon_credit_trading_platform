@@ -1,21 +1,22 @@
 from flask import Flask
 from flask_cors import CORS
-from .config import Config
-# from .routes.auth_routes import auth_bp
-# from .routes.request_routes import request_bp
-from .extensions import db
+from flask_sqlalchemy import SQLAlchemy
+from flask_jwt_extended import JWTManager
+
+db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object(Config)
+    app.config.from_object("app.config.Config")
+
+    CORS(app)
     db.init_app(app)
-    CORS(app)  # Enable Cross-Origin Resource Sharing
+    JWTManager(app)
 
-    from .routes.auth_routes import auth_bp
-    from .routes.request_routes import request_bp
+    from app.routes.auth_routes import auth_bp
+    from app.routes.request_routes import request_bp
 
-    # Register blueprints (modularize routes)
-    app.register_blueprint(auth_bp, url_prefix='/api/auth')
-    app.register_blueprint(request_bp, url_prefix='/api/requests')
+    app.register_blueprint(auth_bp, url_prefix="/api/auth")
+    app.register_blueprint(request_bp, url_prefix="/api/requests")
 
     return app
