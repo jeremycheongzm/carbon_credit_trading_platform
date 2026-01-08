@@ -1,21 +1,32 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import RequestsReceived from './pages/RequestsReceived';
-import NotFound from './pages/NotFound';
+import Navbar from "./components/Navbar";
 
-const App = () => {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/requests" element={<RequestsReceived />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </Router>
-  );
+const isAuthenticated = () => {
+  return !!localStorage.getItem("token");
 };
 
-export default App;
+export default function App() {
+  return (
+    <BrowserRouter>
+      {isAuthenticated() && <Navbar />}
+
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route
+          path="/"
+          element={isAuthenticated() ? <Dashboard /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/requests"
+          element={
+            isAuthenticated() ? <RequestsReceived /> : <Navigate to="/login" />
+          }
+        />
+      </Routes>
+    </BrowserRouter>
+  );
+}
